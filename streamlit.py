@@ -1,55 +1,68 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-from sklearn.linear_model import LogisticRegression
-import seaborn as sns
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
 
-# Load and preprocess the dataset
+# Load the dataset
 dataset = pd.read_csv(r"C:\Users\HP\OneDrive\Desktop\Crop_recommendation.csv")
 
-# Replace categorical values with numerical codes
-dataset["label"].replace({'rice':'1', 'maize':'2', 'chickpea':'3', 'kidneybeans':'4', 
-                          'pigeonpeas':'5', 'mothbeans':'6', 'mungbean':'7', 'blackgram':'8', 
-                          'lentil':'9', 'watermelon':'10', 'muskmelon':'11', 'cotton':'12', 'jute':'13'}, inplace=True)
+# Map categorical values to numerical codes
+label_mapping = {
+    'rice': 1, 'maize': 2, 'chickpea': 3, 'kidneybeans': 4, 'pigeonpeas': 5,
+    'mothbeans': 6, 'mungbean': 7, 'blackgram': 8, 'lentil': 9, 
+    'watermelon': 10, 'muskmelon': 11, 'cotton': 12, 'jute': 13
+}
+season_mapping = {'rainy': 1, 'winter': 2, 'spring': 3, 'summer': 4}
 
-dataset["season"].replace({'rainy':'1', 'winter':'2', 'spring':'3', 'summer':'4'}, inplace=True)
+dataset['label'] = dataset['label'].map(label_mapping)
+dataset['season'] = dataset['season'].map(season_mapping)
 
-# Split the data for training and testing
-x_train, x_test, y_train, y_test = train_test_split(
-    dataset[['temperature', 'humidity', 'ph', 'water availability', 'season']],
-    dataset['label'], 
-    test_size=0.3
-)
+# Split the data into features and target variable
+X = dataset[['temperature', 'humidity', 'ph', 'water availability', 'season']]
+y = dataset['label']
 
-# Train a Logistic Regression model
-lr = LogisticRegression(max_iter=500)
-lr.fit(x_train, y_train)
+# Split the data into training and testing sets
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Initialize and train the Logistic Regression model
+model = LogisticRegression(max_iter=200)
+model.fit(x_train, y_train)
+
+# Function to predict crop
+def predict_crop(temperature, humidity, ph, water_availability, season):
+    # Create a DataFrame for the input data
+    input_data = pd.DataFrame([[temperature, humidity, ph, water_availability, season]], 
+                              columns=['temperature', 'humidity', 'ph', 'water availability', 'season'])
+    
+    # Make a prediction
+    prediction = model.predict(input_data)
+    
+    # Map numerical prediction back to crop name
+    crop_mapping = {v: k for k, v in label_mapping.items()}
+    predicted_crop = crop_mapping[prediction[0]]
+    
+    return predicted_crop
 
 # Streamlit App
-st.title("Crop Prediction App")
-st.write("Predict the type of crop based on input features like temperature, humidity, pH, water availability, and season.")
+st.title("Crop Prediction System")
 
-# Input sliders for user data
-temperature = st.slider("Temperature (°C)", min_value=10, max_value=50, value=25)
-humidity = st.slider("Humidity (%)", min_value=10, max_value=100, value=50)
-ph = st.slider("pH Value", min_value=3.0, max_value=9.0, step=0.1, value=6.5)
-water_availability = st.slider("Water Availability", min_value=10, max_value=300, value=100)
-season = st.selectbox("Season", options=["Rainy", "Winter", "Spring", "Summer"])
+# Input fields
+temperature = st.number_input("Enter Temperature (°C)", min_value=0.0, max_value=50.0, value=20.0)
+humidity = st.number_input("Enter Humidity (%)", min_value=0.0, max_value=100.0, value=50.0)
+ph = st.number_input("Enter pH Value", min_value=0.0, max_value=14.0, value=6.5)
+water_availability = st.number_input("Enter Water Availability (in mm)", min_value=0.0, max_value=500.0, value=100.0)
+season = st.selectbox("Select Season", ["rainy", "winter", "spring", "summer"])
 
 # Convert season to numerical code
-season_code = {"Rainy": 1, "Winter": 2, "Spring": 3, "Summer": 4}[season]
+season_code = season_mapping[season]
 
-# Predict using the trained model
-input_data = pd.DataFrame([[temperature, humidity, ph, water_availability, season_code]], 
-                          columns=['temperature', 'humidity', 'ph', 'water availability', 'season'])
-prediction = lr.predict(input_data)
+# Prediction button
+if st.button("Predict Crop"):
+    result = predict_crop(temperature, humidity, ph, water_availability, season_code)
+    st.success(f"The predicted crop is: {result}")
 
-# Map prediction back to crop name
-crop_map = {1: 'Rice', 2: 'Maize', 3: 'Chickpea', 4: 'Kidneybeans', 5: 'Pigeonpeas',
-            6: 'Mothbeans', 7: 'Mungbean', 8: 'Blackgram', 9: 'Lentil', 10: 'Watermelon',
-            11: 'Muskmelon', 12: 'Cotton', 13: 'Jute'}
-
-st.subheader("Predicted Crop")
-st.write(crop_map[int(prediction[0])])
+# Display model accuracy
+y_pred = model.predict(x_test)
+accuracy = accuracy_score(y_test, y_pred)
+st.write(f"Model Accuracy: {accuracy:.2f}")
