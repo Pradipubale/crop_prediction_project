@@ -4,7 +4,7 @@ from sklearn.linear_model import LogisticRegression
 import seaborn as sns
 
 # Load the dataset
-dataset = pd.read_csv(r"C:\Users\HP\OneDrive\Desktop\Crop_recommendation.csv")
+dataset = pd.read_csv("Crop_recommendation.csv")
 
 # Replace categorical values with numerical codes for 'label' and 'season'
 label_mapping = {
