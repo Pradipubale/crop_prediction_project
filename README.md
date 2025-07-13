@@ -1,4 +1,4 @@
-# Crop Recommendation System
+# Crop Recommendation System(Link:https://croppredictionproject-zrpwxkqjfofbubenatkjvi.streamlit.app/)
 
 This project is a Crop Recommendation System built using Python, Scikit-Learn, and Streamlit. The application uses a Logistic Regression model trained on crop data to predict the most suitable crop based on the user's input parameters such as temperature, humidity, pH level, water availability, and season.
 
