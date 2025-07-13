@@ -66,216 +66,21 @@ crop_images = {
     'jute': 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=300&fit=crop'
 }
 
-# Enhanced crop information dictionary
-crop_info = {
-    'rice': {
-        'description': 'A staple cereal grain that feeds over half the world\'s population.',
-        'scientific_name': 'Oryza sativa',
-        'growth_duration': '90-120 days',
-        'optimal_temp': '20-35°C',
-        'water_requirement': 'High (1000-2000mm)',
-        'soil_ph': '5.5-7.0',
-        'best_season': 'Rainy/Monsoon',
-        'nutrition': 'Rich in carbohydrates, provides energy',
-        'uses': 'Food grain, rice bran oil, animal feed',
-        'yield': '4-6 tons/hectare',
-        'market_value': '₹20-25 per kg',
-        'tips': 'Requires flooded fields, good drainage system needed',
-        'diseases': 'Blast, Brown spot, Bacterial leaf blight',
-        'soil_type': 'Clay loam, well-drained'
-    },
-    'maize': {
-        'description': 'A versatile crop used for food, feed, and industrial applications.',
-        'scientific_name': 'Zea mays',
-        'growth_duration': '80-110 days',
-        'optimal_temp': '21-27°C',
-        'water_requirement': 'Moderate (500-800mm)',
-        'soil_ph': '5.8-7.8',
-        'best_season': 'Summer/Rainy',
-        'nutrition': 'High in carbs, vitamin B6, thiamine',
-        'uses': 'Food, animal feed, ethanol production',
-        'yield': '5-8 tons/hectare',
-        'market_value': '₹18-22 per kg',
-        'tips': 'Requires well-drained soil, regular weeding',
-        'diseases': 'Corn borer, Leaf blight, Rust',
-        'soil_type': 'Well-drained loamy soil'
-    },
-    'chickpea': {
-        'description': 'A protein-rich legume, excellent for soil nitrogen fixation.',
-        'scientific_name': 'Cicer arietinum',
-        'growth_duration': '90-120 days',
-        'optimal_temp': '20-30°C',
-        'water_requirement': 'Low-Moderate (300-500mm)',
-        'soil_ph': '6.0-7.5',
-        'best_season': 'Winter/Rabi',
-        'nutrition': 'High protein, fiber, folate',
-        'uses': 'Food, flour, animal feed',
-        'yield': '1.5-2.5 tons/hectare',
-        'market_value': '₹40-60 per kg',
-        'tips': 'Drought tolerant, fixes nitrogen in soil',
-        'diseases': 'Wilt, Blight, Pod borer',
-        'soil_type': 'Well-drained sandy loam'
-    },
-    'kidneybeans': {
-        'description': 'High-protein legume with excellent nutritional value.',
-        'scientific_name': 'Phaseolus vulgaris',
-        'growth_duration': '90-110 days',
-        'optimal_temp': '18-24°C',
-        'water_requirement': 'Moderate (400-600mm)',
-        'soil_ph': '6.0-7.0',
-        'best_season': 'Winter/Spring',
-        'nutrition': 'High protein, fiber, iron',
-        'uses': 'Food, canned beans, export',
-        'yield': '1.8-2.2 tons/hectare',
-        'market_value': '₹80-120 per kg',
-        'tips': 'Sensitive to frost, needs support for climbing',
-        'diseases': 'Anthracnose, Rust, Bacterial blight',
-        'soil_type': 'Well-drained fertile loam'
-    },
-    'pigeonpeas': {
-        'description': 'Drought-tolerant legume crop, ideal for sustainable farming.',
-        'scientific_name': 'Cajanus cajan',
-        'growth_duration': '120-180 days',
-        'optimal_temp': '20-30°C',
-        'water_requirement': 'Low (350-500mm)',
-        'soil_ph': '5.5-7.0',
-        'best_season': 'Rainy/Kharif',
-        'nutrition': 'High protein, amino acids',
-        'uses': 'Dal, green pods, fodder',
-        'yield': '1.2-1.8 tons/hectare',
-        'market_value': '₹60-80 per kg',
-        'tips': 'Very drought tolerant, improves soil fertility',
-        'diseases': 'Wilt, Sterility mosaic, Pod fly',
-        'soil_type': 'Well-drained sandy to clay loam'
-    },
-    'mothbeans': {
-        'description': 'Hardy legume that thrives in arid conditions.',
-        'scientific_name': 'Vigna aconitifolia',
-        'growth_duration': '75-90 days',
-        'optimal_temp': '25-35°C',
-        'water_requirement': 'Very Low (250-400mm)',
-        'soil_ph': '6.0-8.0',
-        'best_season': 'Summer/Rainy',
-        'nutrition': 'High protein, calcium, iron',
-        'uses': 'Food, fodder, green manure',
-        'yield': '0.8-1.2 tons/hectare',
-        'market_value': '₹50-70 per kg',
-        'tips': 'Extremely drought tolerant, good for arid regions',
-        'diseases': 'Leaf spot, Powdery mildew',
-        'soil_type': 'Sandy to sandy loam'
-    },
-    'mungbean': {
-        'description': 'Fast-growing legume with high nutritional content.',
-        'scientific_name': 'Vigna radiata',
-        'growth_duration': '60-90 days',
-        'optimal_temp': '25-35°C',
-        'water_requirement': 'Low-Moderate (300-500mm)',
-        'soil_ph': '6.2-7.2',
-        'best_season': 'Summer/Rainy',
-        'nutrition': 'High protein, vitamin C, folate',
-        'uses': 'Food, sprouts, animal feed',
-        'yield': '1.0-1.5 tons/hectare',
-        'market_value': '₹70-90 per kg',
-        'tips': 'Quick maturing, good for rotation',
-        'diseases': 'Yellow mosaic, Leaf spot',
-        'soil_type': 'Well-drained sandy loam'
-    },
-    'blackgram': {
-        'description': 'Protein-rich pulse crop with good market value.',
-        'scientific_name': 'Vigna mungo',
-        'growth_duration': '75-90 days',
-        'optimal_temp': '25-35°C',
-        'water_requirement': 'Low (300-400mm)',
-        'soil_ph': '6.5-7.5',
-        'best_season': 'Summer/Rainy',
-        'nutrition': 'High protein, iron, calcium',
-        'uses': 'Dal, papad, fermented foods',
-        'yield': '1.0-1.4 tons/hectare',
-        'market_value': '₹80-100 per kg',
-        'tips': 'Tolerates waterlogging better than other pulses',
-        'diseases': 'Leaf crinkle, Anthracnose',
-        'soil_type': 'Clay loam to sandy loam'
-    },
-    'lentil': {
-        'description': 'Nutritious legume crop with excellent protein content.',
-        'scientific_name': 'Lens culinaris',
-        'growth_duration': '95-110 days',
-        'optimal_temp': '18-25°C',
-        'water_requirement': 'Low (300-400mm)',
-        'soil_ph': '6.0-7.5',
-        'best_season': 'Winter/Rabi',
-        'nutrition': 'High protein, fiber, folate',
-        'uses': 'Dal, flour, export',
-        'yield': '1.2-1.8 tons/hectare',
-        'market_value': '₹60-80 per kg',
-        'tips': 'Cold tolerant, good for rotation with cereals',
-        'diseases': 'Rust, Wilt, Blight',
-        'soil_type': 'Well-drained loamy soil'
-    },
-    'watermelon': {
-        'description': 'Refreshing fruit crop with high water content.',
-        'scientific_name': 'Citrullus lanatus',
-        'growth_duration': '80-100 days',
-        'optimal_temp': '25-35°C',
-        'water_requirement': 'High (400-600mm)',
-        'soil_ph': '6.0-7.0',
-        'best_season': 'Summer',
-        'nutrition': 'High water content, vitamin C, lycopene',
-        'uses': 'Fresh fruit, juice, seeds',
-        'yield': '30-40 tons/hectare',
-        'market_value': '₹8-15 per kg',
-        'tips': 'Requires warm weather, good drainage',
-        'diseases': 'Downy mildew, Anthracnose',
-        'soil_type': 'Well-drained sandy loam'
-    },
-    'muskmelon': {
-        'description': 'Sweet, aromatic fruit with good market demand.',
-        'scientific_name': 'Cucumis melo',
-        'growth_duration': '70-90 days',
-        'optimal_temp': '25-35°C',
-        'water_requirement': 'Moderate (350-500mm)',
-        'soil_ph': '6.0-7.5',
-        'best_season': 'Summer',
-        'nutrition': 'Vitamin A, C, potassium',
-        'uses': 'Fresh fruit, juice, export',
-        'yield': '20-30 tons/hectare',
-        'market_value': '₹15-25 per kg',
-        'tips': 'Requires warm, dry weather during ripening',
-        'diseases': 'Powdery mildew, Fruit fly',
-        'soil_type': 'Well-drained sandy to loamy'
-    },
-    'cotton': {
-        'description': 'Important fiber crop for textile industry.',
-        'scientific_name': 'Gossypium hirsutum',
-        'growth_duration': '180-200 days',
-        'optimal_temp': '21-27°C',
-        'water_requirement': 'High (700-1300mm)',
-        'soil_ph': '5.8-8.0',
-        'best_season': 'Rainy/Kharif',
-        'nutrition': 'Not applicable (fiber crop)',
-        'uses': 'Textile fiber, oil, animal feed',
-        'yield': '1.5-2.5 tons/hectare',
-        'market_value': '₹50-70 per kg',
-        'tips': 'Requires long growing season, pest management crucial',
-        'diseases': 'Bollworm, Leaf curl virus',
-        'soil_type': 'Deep, well-drained black soil'
-    },
-    'jute': {
-        'description': 'Natural fiber crop used for eco-friendly products.',
-        'scientific_name': 'Corchorus capsularis',
-        'growth_duration': '120-150 days',
-        'optimal_temp': '25-35°C',
-        'water_requirement': 'High (1000-1500mm)',
-        'soil_ph': '6.0-7.5',
-        'best_season': 'Rainy/Monsoon',
-        'nutrition': 'Young leaves edible (vitamin C)',
-        'uses': 'Fiber, bags, textiles, paper',
-        'yield': '2.5-3.5 tons/hectare',
-        'market_value': '₹30-40 per kg',
-        'tips': 'Requires high humidity, waterlogged conditions',
-        'diseases': 'Stem rot, Leaf spot',
-        'soil_type': 'Alluvial soil with good water retention'
-    }
+# Crop descriptions
+crop_descriptions = {
+    'rice': 'A staple cereal grain that feeds over half the world\'s population.',
+    'maize': 'A versatile crop used for food, feed, and industrial applications.',
+    'chickpea': 'A protein-rich legume, excellent for soil nitrogen fixation.',
+    'kidneybeans': 'High-protein legume with excellent nutritional value.',
+    'pigeonpeas': 'Drought-tolerant legume crop, ideal for sustainable farming.',
+    'mothbeans': 'Hardy legume that thrives in arid conditions.',
+    'mungbean': 'Fast-growing legume with high nutritional content.',
+    'blackgram': 'Protein-rich pulse crop with good market value.',
+    'lentil': 'Nutritious legume crop with excellent protein content.',
+    'watermelon': 'Refreshing fruit crop with high water content.',
+    'muskmelon': 'Sweet, aromatic fruit with good market demand.',
+    'cotton': 'Important fiber crop for textile industry.',
+    'jute': 'Natural fiber crop used for eco-friendly products.'
 }
 
 # Season icons
@@ -526,36 +331,6 @@ st.markdown("""
             font-weight: 600;
             color: #2c3e50;
         }
-        
-        .info-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 1rem;
-        }
-        
-        .info-header {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .info-content {
-            color: #34495e;
-            line-height: 1.6;
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -657,7 +432,7 @@ with st.sidebar:
     
     st.markdown("""
     <div style='text-align: center; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; color: white;'>
-        <strong>🚀 Developed by Pradip</strong><br>
+        <strong>🚀 Developed by Prathamesh</strong><br>
         <small>Powered by AI & Machine Learning</small>
     </div>
     """, unsafe_allow_html=True)
@@ -689,4 +464,89 @@ with col1:
     
     st.markdown("""
         <div class="parameter-card">
-            <div class="parameter
+            <div class="parameter-title">🗓️ Growing Season</div>
+        </div>
+    """, unsafe_allow_html=True)
+    season = st.selectbox("Season", ["rainy", "winter", "spring", "summer"], key="season", 
+                         format_func=lambda x: f"{season_icons[x]} {x.title()}")
+
+with col2:
+    st.markdown("""
+        <div class="parameter-card">
+            <div class="parameter-title">💧 Humidity</div>
+        </div>
+    """, unsafe_allow_html=True)
+    humidity = st.slider("Humidity (%)", 0.0, 100.0, 65.0, key="humidity", help="Relative humidity percentage")
+    
+    st.markdown("""
+        <div class="parameter-card">
+            <div class="parameter-title">🚿 Water Availability</div>
+        </div>
+    """, unsafe_allow_html=True)
+    water_availability = st.slider("Water (mm)", 0.0, 500.0, 120.0, key="water", help="Available water for irrigation")
+
+# Center the predict button
+st.markdown("<div style='text-align: center; margin: 3rem 0;'>", unsafe_allow_html=True)
+predict_button = st.button("🔍 Get Crop Recommendation", key="predict", help="Click to get AI-powered crop recommendation")
+st.markdown("</div>", unsafe_allow_html=True)
+
+# Prediction results
+if predict_button:
+    with st.spinner("🤖 AI is analyzing your farm conditions..."):
+        time.sleep(2)  # Simulate processing time
+        
+        season_code = season_mapping[season]
+        result = predict_crop(temperature, humidity, ph, water_availability, season_code)
+        
+        # Display results
+        st.markdown(f"""
+            <div class="result-container">
+                <div class="result-title">🎯 Recommended Crop</div>
+                <div class="result-crop">{result.title()}</div>
+                <div class="crop-description">{crop_descriptions[result]}</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # Display crop image and details
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.image(crop_images[result], caption=f"{result.title()} - Your Recommended Crop", use_container_width=True)
+        
+        # Additional crop information
+        st.markdown("""
+            <div class="input-section">
+                <div class="section-title">📋 Crop Information</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        info_col1, info_col2 = st.columns(2)
+        with info_col1:
+            st.info(f"**Crop Type:** {result.title()}")
+            st.info(f"**Best Season:** {season_icons[season]} {season.title()}")
+        
+        with info_col2:
+            st.info(f"**Optimal Temperature:** {temperature}°C")
+            st.info(f"**Water Requirement:** {water_availability}mm")
+
+# Model performance
+y_pred = model.predict(x_test)
+accuracy = accuracy_score(y_test, y_pred)
+
+st.markdown(f"""
+    <div class="result-container">
+        <div class="accuracy-badge">
+            📈 Model Accuracy: {accuracy:.1%}
+        </div>
+        <div style="margin-top: 1rem; font-size: 1rem; opacity: 0.8;">
+            Trained on comprehensive agricultural dataset with {len(dataset)} samples
+        </div>
+    </div>
+""", unsafe_allow_html=True)
+
+# Footer
+st.markdown("""
+    <div class="footer">
+        <p>🌾 Smart Crop Recommendation System | Powered by AI & Machine Learning</p>
+        <p>© 2025 Agricultural Innovation Lab | Developed with ❤️ by Prathamesh</p>
+    </div>
+""", unsafe_allow_html=True)
