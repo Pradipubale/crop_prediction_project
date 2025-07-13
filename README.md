@@ -1,6 +1,9 @@
 
+---
 
-```
+## 📄 Final `README.md`
+
+```markdown
 # 🌾 Smart Crop Recommendation System
 
 An intelligent web application built with **Streamlit** and **Scikit-learn** that predicts the most suitable crop to cultivate based on environmental parameters like **temperature**, **humidity**, **soil pH**, **water availability**, and **season**.  
