@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, accuracy_score
 
 # Load the dataset
-dataset = pd.read_csv(r"C:\Users\HP\OneDrive\Desktop\Crop_recommendation.csv")
+dataset = dataset = pd.read_csv("Crop_recommendation.csv")
+
 
 # Map categorical values to numerical codes
 label_mapping = {
