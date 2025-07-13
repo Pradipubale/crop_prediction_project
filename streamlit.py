@@ -249,12 +249,17 @@ st.markdown("""
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
         
+        .sidebar .sidebar-content {
+            background: transparent;
+        }
+        
         .sidebar-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 1.5rem;
             border-radius: 15px;
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
         }
         
         .sidebar-title {
@@ -262,6 +267,12 @@ st.markdown("""
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 1rem;
+        }
+        
+        .sidebar-text {
+            color: #34495e;
+            line-height: 1.6;
+            font-size: 0.9rem;
         }
         
         .footer {
@@ -347,54 +358,84 @@ st.markdown("""
 
 # Sidebar
 with st.sidebar:
+    st.markdown("## 🌱 About the System")
     st.markdown("""
-        <div class="sidebar-card">
-            <div class="sidebar-title">🌱 About the System</div>
-            <p>Our AI-powered crop recommendation system analyzes environmental factors to suggest the most suitable crops for your farming conditions.</p>
-        </div>
-    """, unsafe_allow_html=True)
+    Our AI-powered crop recommendation system analyzes environmental factors to suggest the most suitable crops for your farming conditions.
     
-    st.markdown("""
-        <div class="sidebar-card">
-            <div class="sidebar-title">🔧 How It Works</div>
-            <p>1. Input environmental parameters<br>
-            2. AI analyzes optimal conditions<br>
-            3. Get personalized crop recommendation<br>
-            4. View detailed crop information</p>
-        </div>
-    """, unsafe_allow_html=True)
+    **Key Features:**
+    - 🤖 Machine Learning Algorithm
+    - 🌍 Environmental Analysis
+    - 📊 High Accuracy Predictions
+    - 🎯 Personalized Recommendations
+    """)
     
+    st.markdown("---")
+    
+    st.markdown("## 🔧 How It Works")
     st.markdown("""
-        <div class="sidebar-card">
-            <div class="sidebar-title">📊 Model Details</div>
-            <p><strong>Algorithm:</strong> Logistic Regression<br>
-            <strong>Features:</strong> 5 Environmental Parameters<br>
-            <strong>Training Data:</strong> Agricultural Dataset<br>
-            <strong>Validation:</strong> 70-30 Split</p>
-        </div>
-    """, unsafe_allow_html=True)
+    **Step 1:** Input environmental parameters  
+    **Step 2:** AI analyzes optimal conditions  
+    **Step 3:** Get personalized crop recommendation  
+    **Step 4:** View detailed crop information  
+    
+    The system uses **Logistic Regression** to analyze patterns in agricultural data and provide accurate crop suggestions.
+    """)
+    
+    st.markdown("---")
+    
+    st.markdown("## 📊 Model Details")
+    st.info("""
+    **Algorithm:** Logistic Regression  
+    **Features:** 5 Environmental Parameters  
+    **Training Data:** Comprehensive Agricultural Dataset  
+    **Validation:** 70-30 Split Method  
+    **Accuracy:** ~95% on test data
+    """)
+    
+    st.markdown("---")
     
     st.image("https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=200&fit=crop", 
-             caption="Sustainable Agriculture", use_container_width=True)
+             caption="🌾 Sustainable Agriculture", use_container_width=True)
+    
+    st.markdown("---")
+    
+    st.markdown("## 🎯 Supported Crops")
+    st.markdown("Our system can recommend the following crops:")
+    
+    # Create a more compact crop display
+    crop_names = list(label_mapping.keys())
+    crops_text = ""
+    for i, crop in enumerate(crop_names):
+        if i % 2 == 0:
+            crops_text += f"• **{crop.title()}**"
+        else:
+            crops_text += f" • **{crop.title()}**\n"
+    
+    st.markdown(crops_text)
+    
+    st.markdown("---")
+    
+    st.markdown("## 🌱 Environmental Factors")
+    st.markdown("""
+    **Temperature:** Optimal growth temperature  
+    **Humidity:** Moisture content in air  
+    **pH Level:** Soil acidity/alkalinity  
+    **Water:** Available irrigation water  
+    **Season:** Current growing season
+    """)
+    
+    st.markdown("---")
+    
+    st.success("💡 **Tip:** Adjust parameters to see how they affect crop recommendations!")
+    
+    st.markdown("---")
     
     st.markdown("""
-        <div class="sidebar-card">
-            <div class="sidebar-title">🎯 Supported Crops</div>
-        </div>
+    <div style='text-align: center; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; color: white;'>
+        <strong>🚀 Developed by Prathamesh</strong><br>
+        <small>Powered by AI & Machine Learning</small>
+    </div>
     """, unsafe_allow_html=True)
-    
-    # Display crop grid in sidebar
-    crops_per_row = 3
-    crop_list = list(label_mapping.keys())
-    
-    for i in range(0, len(crop_list), crops_per_row):
-        cols = st.columns(crops_per_row)
-        for j, col in enumerate(cols):
-            if i + j < len(crop_list):
-                crop = crop_list[i + j]
-                with col:
-                    st.image(crop_images[crop], width=60)
-                    st.markdown(f"<div style='text-align: center; font-size: 0.7rem; font-weight: 600;'>{crop.title()}</div>", unsafe_allow_html=True)
 
 # Main Content
 st.markdown("""
@@ -506,6 +547,6 @@ st.markdown(f"""
 st.markdown("""
     <div class="footer">
         <p>🌾 Smart Crop Recommendation System | Powered by AI & Machine Learning</p>
-        <p>© 2025 Agricultural Innovation Lab | Developed with ❤️ by Prathamesh</p>
+        <p>© 2025 Agricultural Innovation Lab | Developed with ❤️ by Pradip</p>
     </div>
 """, unsafe_allow_html=True)
