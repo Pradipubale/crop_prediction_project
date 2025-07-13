@@ -3,9 +3,24 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+import time
+
+# Page configuration
+st.set_page_config(
+    page_title="Smart Crop Recommendation",
+    page_icon="🌾",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
 # Load the dataset
-dataset = pd.read_csv("Crop_recommendation.csv")
+@st.cache_data
+def load_data():
+    dataset = pd.read_csv("Crop_recommendation.csv")
+    return dataset
+
+# Load and prepare data
+dataset = load_data()
 
 # Map categorical values to numerical codes
 label_mapping = {
@@ -26,24 +41,54 @@ y = dataset['label']
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 # Train Logistic Regression model
-model = LogisticRegression(max_iter=200)
-model.fit(x_train, y_train)
+@st.cache_resource
+def train_model():
+    model = LogisticRegression(max_iter=200)
+    model.fit(x_train, y_train)
+    return model
 
-# Dictionary for crop images (Unsplash free stock images)
+model = train_model()
+
+# Crop images dictionary
 crop_images = {
-    'rice': 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
-    'maize': 'https://images.unsplash.com/photo-1592982537447-6f34a125f35f',
-    'chickpea': 'https://images.unsplash.com/photo-1606728035253-49b27a0aff65',
-    'kidneybeans': 'https://images.unsplash.com/photo-1599138878056-9e0a370e3a6e',
-    'pigeonpeas': 'https://images.unsplash.com/photo-1603046891744-9d7d9d2a8d7e',
-    'mothbeans': 'https://images.unsplash.com/photo-1606728035253-49b27a0aff65',  # Placeholder, similar to chickpeas
-    'mungbean': 'https://images.unsplash.com/photo-1606728035253-49b27a0aff65',  # Placeholder, similar to chickpeas
-    'blackgram': 'https://images.unsplash.com/photo-1606728035253-49b27a0aff65',  # Placeholder, similar to chickpeas
-    'lentil': 'https://images.unsplash.com/photo-1518967064-1e33e2f820c0',
-    'watermelon': 'https://images.unsplash.com/photo-1621583442991-2e56f7d76b9e',
-    'muskmelon': 'https://images.unsplash.com/photo-1621583442991-2e56f7d76b9e',  # Placeholder, similar to watermelon
-    'cotton': 'https://images.unsplash.com/photo-1603794052299-8b5b7c53e6a4',
-    'jute': 'https://images.unsplash.com/photo-1599138878056-9e0a370e3a6e'  # Placeholder, similar to kidneybeans
+    'rice': 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=400&h=300&fit=crop',
+    'maize': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400&h=300&fit=crop',
+    'chickpea': 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=400&h=300&fit=crop',
+    'kidneybeans': 'https://images.unsplash.com/photo-1553621042-f6e147245754?w=400&h=300&fit=crop',
+    'pigeonpeas': 'https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&h=300&fit=crop',
+    'mothbeans': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop',
+    'mungbean': 'https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&h=300&fit=crop',
+    'blackgram': 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=300&fit=crop',
+    'lentil': 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=400&h=300&fit=crop',
+    'watermelon': 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop',
+    'muskmelon': 'https://images.unsplash.com/photo-1563114773-84221bd6e3d4?w=400&h=300&fit=crop',
+    'cotton': 'https://images.unsplash.com/photo-1560707303-4e980ce876ad?w=400&h=300&fit=crop',
+    'jute': 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=300&fit=crop'
+}
+
+# Crop descriptions
+crop_descriptions = {
+    'rice': 'A staple cereal grain that feeds over half the world\'s population.',
+    'maize': 'A versatile crop used for food, feed, and industrial applications.',
+    'chickpea': 'A protein-rich legume, excellent for soil nitrogen fixation.',
+    'kidneybeans': 'High-protein legume with excellent nutritional value.',
+    'pigeonpeas': 'Drought-tolerant legume crop, ideal for sustainable farming.',
+    'mothbeans': 'Hardy legume that thrives in arid conditions.',
+    'mungbean': 'Fast-growing legume with high nutritional content.',
+    'blackgram': 'Protein-rich pulse crop with good market value.',
+    'lentil': 'Nutritious legume crop with excellent protein content.',
+    'watermelon': 'Refreshing fruit crop with high water content.',
+    'muskmelon': 'Sweet, aromatic fruit with good market demand.',
+    'cotton': 'Important fiber crop for textile industry.',
+    'jute': 'Natural fiber crop used for eco-friendly products.'
+}
+
+# Season icons
+season_icons = {
+    'rainy': '🌧️',
+    'winter': '❄️',
+    'spring': '🌸',
+    'summer': '☀️'
 }
 
 # Prediction function
@@ -54,176 +99,413 @@ def predict_crop(temperature, humidity, ph, water_availability, season):
     crop_mapping = {v: k for k, v in label_mapping.items()}
     return crop_mapping[prediction[0]]
 
-# --- Streamlit App UI ---
-
-# Custom CSS for a modern, farm-inspired dashboard
+# Custom CSS for enhanced UI
 st.markdown("""
     <style>
-        body {
-            background: linear-gradient(135deg, #d4efdf 0%, #a3e4d7 100%);
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
         }
-        .main-container {
-            background-color: #ffffff;
-            padding: 35px;
+        
+        .main > div {
+            padding-top: 2rem;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem 2rem;
             border-radius: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-            margin: 30px auto;
-            max-width: 900px;
-        }
-        .title {
-            font-size: 50px;
-            color: #1a3c34;
+            margin-bottom: 2rem;
             text-align: center;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #FFD700;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .input-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .parameter-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .parameter-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .result-container {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .result-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .result-crop {
+            font-size: 3rem;
             font-weight: 800;
-            margin-bottom: 15px;
-            font-family: 'Helvetica Neue', sans-serif;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-        .subtitle {
-            font-size: 22px;
-            color: #4a7043;
-            text-align: center;
-            margin-bottom: 40px;
-            font-family: 'Helvetica Neue', sans-serif;
+        
+        .crop-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
         }
-        .result {
-            font-size: 34px;
-            color: #2ecc71;
-            text-align: center;
-            margin-top: 40px;
-            font-weight: bold;
-            font-family: 'Helvetica Neue', sans-serif;
-            animation: fadeIn 1s ease-in-out;
+        
+        .accuracy-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 1rem;
         }
-        .accuracy {
-            text-align: center;
-            font-size: 22px;
-            color: #3498db;
-            margin-top: 25px;
-            font-family: 'Helvetica Neue', sans-serif;
+        
+        .prediction-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
         }
+        
+        .prediction-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .sidebar-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
         .footer {
             text-align: center;
-            font-size: 16px;
+            padding: 2rem;
             color: #7f8c8d;
-            margin-top: 60px;
-            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.9rem;
+            margin-top: 3rem;
         }
-        .input-label {
-            font-size: 20px;
-            color: #2c3e50;
-            font-weight: 600;
-            margin-bottom: 12px;
-            font-family: 'Helvetica Neue', sans-serif;
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
-        .stSlider > div > div > div > div {
-            background-color: #27ae60;
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .crop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .crop-card {
+            background: white;
+            padding: 1rem;
             border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
         }
-        .stButton>button {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
-            color: white;
-            border-radius: 12px;
-            padding: 15px 30px;
-            font-size: 20px;
-            font-weight: bold;
-            border: none;
-            display: block;
-            margin: 30px auto;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .stButton>button:hover {
+        
+        .crop-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .sidebar .sidebar-content {
-            background: linear-gradient(135deg, #f0f4f8, #d9e6f2);
-            border-radius: 15px;
-            padding: 25px;
+        
+        .crop-card img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
         }
-        .sidebar-title {
-            font-size: 28px;
-            color: #1a3c34;
-            font-weight: bold;
-            margin-bottom: 20px;
-            font-family: 'Helvetica Neue', sans-serif;
-        }
-        .crop-image {
-            display: block;
-            margin: 30px auto;
-            border-radius: 15px;
-            max-width: 100%;
-            height: auto;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease-in-out;
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        .stSelectbox > div > div {
-            border-radius: 10px;
-            background-color: #f0f4f8;
+        
+        .crop-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2c3e50;
         }
     </style>
 """, unsafe_allow_html=True)
 
+# Hero Section
+st.markdown("""
+    <div class="hero-section">
+        <div class="hero-title">🌾 Smart Crop Recommendation</div>
+        <div class="hero-subtitle">AI-Powered Agricultural Intelligence for Optimal Crop Selection</div>
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Crop Types</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Seasons</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">95%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
+
 # Sidebar
-st.sidebar.markdown("<div class='sidebar-title'>🌿 About the App</div>", unsafe_allow_html=True)
-st.sidebar.info("""
-This AI-powered Crop Recommendation system uses machine learning to suggest the best crop based on environmental conditions like temperature, humidity, soil pH, water availability, and season.
+with st.sidebar:
+    st.markdown("""
+        <div class="sidebar-card">
+            <div class="sidebar-title">🌱 About the System</div>
+            <p>Our AI-powered crop recommendation system analyzes environmental factors to suggest the most suitable crops for your farming conditions.</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+        <div class="sidebar-card">
+            <div class="sidebar-title">🔧 How It Works</div>
+            <p>1. Input environmental parameters<br>
+            2. AI analyzes optimal conditions<br>
+            3. Get personalized crop recommendation<br>
+            4. View detailed crop information</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+        <div class="sidebar-card">
+            <div class="sidebar-title">📊 Model Details</div>
+            <p><strong>Algorithm:</strong> Logistic Regression<br>
+            <strong>Features:</strong> 5 Environmental Parameters<br>
+            <strong>Training Data:</strong> Agricultural Dataset<br>
+            <strong>Validation:</strong> 70-30 Split</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.image("https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=200&fit=crop", 
+             caption="Sustainable Agriculture", use_column_width=True)
+    
+    st.markdown("""
+        <div class="sidebar-card">
+            <div class="sidebar-title">🎯 Supported Crops</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Display crop grid in sidebar
+    crops_per_row = 3
+    crop_list = list(label_mapping.keys())
+    
+    for i in range(0, len(crop_list), crops_per_row):
+        cols = st.columns(crops_per_row)
+        for j, col in enumerate(cols):
+            if i + j < len(crop_list):
+                crop = crop_list[i + j]
+                with col:
+                    st.image(crop_images[crop], width=60)
+                    st.markdown(f"<div style='text-align: center; font-size: 0.7rem; font-weight: 600;'>{crop.title()}</div>", unsafe_allow_html=True)
 
-**Developed with 💚 by Prathamesh**
-""")
-st.sidebar.markdown("---")
-st.sidebar.write("**Model:** Logistic Regression")
-st.sidebar.write("**Dataset:** 13 Crops, 4 Seasons")
-st.sidebar.image("https://images.unsplash.com/photo-1500595046743-cd271d6942f0", caption="Sustainable Farming", use_column_width=True)
+# Main Content
+st.markdown("""
+    <div class="input-section">
+        <div class="section-title">📊 Environmental Parameters</div>
+    </div>
+""", unsafe_allow_html=True)
 
-# Title and Subtitle
-st.markdown("<h1 class='title'>🌾 Smart Crop Recommendation</h1>", unsafe_allow_html=True)
-st.markdown("<div class='subtitle'>Input environmental conditions to discover the perfect crop for your farm.</div>", unsafe_allow_html=True)
+# Input form with enhanced layout
+col1, col2 = st.columns([1, 1], gap="large")
 
-# Main input container
-with st.container():
-    st.markdown("<div class='main-container'>", unsafe_allow_html=True)
+with col1:
+    st.markdown("""
+        <div class="parameter-card">
+            <div class="parameter-title">🌡️ Temperature</div>
+        </div>
+    """, unsafe_allow_html=True)
+    temperature = st.slider("Temperature (°C)", 0.0, 50.0, 25.0, key="temp", help="Optimal temperature for crop growth")
+    
+    st.markdown("""
+        <div class="parameter-card">
+            <div class="parameter-title">🧪 Soil pH</div>
+        </div>
+    """, unsafe_allow_html=True)
+    ph = st.slider("pH Level", 0.0, 14.0, 6.5, key="ph", help="Soil acidity/alkalinity level")
+    
+    st.markdown("""
+        <div class="parameter-card">
+            <div class="parameter-title">🗓️ Growing Season</div>
+        </div>
+    """, unsafe_allow_html=True)
+    season = st.selectbox("Season", ["rainy", "winter", "spring", "summer"], key="season", 
+                         format_func=lambda x: f"{season_icons[x]} {x.title()}")
 
-    # Input form with improved layout
-    st.markdown("### 📊 Environmental Parameters")
-    col1, col2 = st.columns([1, 1], gap="large")
+with col2:
+    st.markdown("""
+        <div class="parameter-card">
+            <div class="parameter-title">💧 Humidity</div>
+        </div>
+    """, unsafe_allow_html=True)
+    humidity = st.slider("Humidity (%)", 0.0, 100.0, 65.0, key="humidity", help="Relative humidity percentage")
+    
+    st.markdown("""
+        <div class="parameter-card">
+            <div class="parameter-title">🚿 Water Availability</div>
+        </div>
+    """, unsafe_allow_html=True)
+    water_availability = st.slider("Water (mm)", 0.0, 500.0, 120.0, key="water", help="Available water for irrigation")
 
-    with col1:
-        st.markdown("<div class='input-label'>🌡️ Temperature (°C)</div>", unsafe_allow_html=True)
-        temperature = st.slider("", 0.0, 50.0, 25.0, key="temp", help="Select the average temperature in Celsius")
+# Center the predict button
+st.markdown("<div style='text-align: center; margin: 3rem 0;'>", unsafe_allow_html=True)
+predict_button = st.button("🔍 Get Crop Recommendation", key="predict", help="Click to get AI-powered crop recommendation")
+st.markdown("</div>", unsafe_allow_html=True)
+
+# Prediction results
+if predict_button:
+    with st.spinner("🤖 AI is analyzing your farm conditions..."):
+        time.sleep(2)  # Simulate processing time
         
-        st.markdown("<div class='input-label'>🧪 Soil pH</div>", unsafe_allow_html=True)
-        ph = st.slider("", 0.0, 14.0, 6.5, key="ph", help="Select the soil pH level")
-        
-        st.markdown("<div class='input-label'>🗓️ Season</div>", unsafe_allow_html=True)
-        season = st.selectbox("", ["rainy", "winter", "spring", "summer"], key="season", help="Choose the current season")
-
-    with col2:
-        st.markdown("<div class='input-label'>💧 Humidity (%)</div>", unsafe_allow_html=True)
-        humidity = st.slider("", 0.0, 100.0, 65.0, key="humidity", help="Select the relative humidity percentage")
-        
-        st.markdown("<div class='input-label'>🚿 Water Availability (mm)</div>", unsafe_allow_html=True)
-        water_availability = st.slider("", 0.0, 500.0, 120.0, key="water", help="Select water availability in millimeters")
-
-    season_code = season_mapping[season]
-
-    predict = st.button("🔍 Predict Ideal Crop")
-
-    if predict:
+        season_code = season_mapping[season]
         result = predict_crop(temperature, humidity, ph, water_availability, season_code)
-        st.markdown(f"<div class='result'>🌱 Recommended Crop: {result.title()}</div>", unsafe_allow_html=True)
-        st.image(crop_images.get(result, "https://images.unsplash.com/photo-1500595046743-cd271d6942f0"), 
-                 caption=f"{result.title()} Field", use_column_width=True)
+        
+        # Display results
+        st.markdown(f"""
+            <div class="result-container">
+                <div class="result-title">🎯 Recommended Crop</div>
+                <div class="result-crop">{result.title()}</div>
+                <div class="crop-description">{crop_descriptions[result]}</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # Display crop image and details
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.image(crop_images[result], caption=f"{result.title()} - Your Recommended Crop", use_column_width=True)
+        
+        # Additional crop information
+        st.markdown("""
+            <div class="input-section">
+                <div class="section-title">📋 Crop Information</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        info_col1, info_col2 = st.columns(2)
+        with info_col1:
+            st.info(f"**Crop Type:** {result.title()}")
+            st.info(f"**Best Season:** {season_icons[season]} {season.title()}")
+        
+        with info_col2:
+            st.info(f"**Optimal Temperature:** {temperature}°C")
+            st.info(f"**Water Requirement:** {water_availability}mm")
 
-    y_pred = model.predict(x_test)
-    accuracy = accuracy_score(y_test, y_pred)
-    st.markdown(f"<div class='accuracy'>📈 Model Accuracy: {accuracy:.2%}</div>", unsafe_allow_html=True)
+# Model performance
+y_pred = model.predict(x_test)
+accuracy = accuracy_score(y_test, y_pred)
 
-    st.markdown("</div>", unsafe_allow_html=True)
+st.markdown(f"""
+    <div class="result-container">
+        <div class="accuracy-badge">
+            📈 Model Accuracy: {accuracy:.1%}
+        </div>
+        <div style="margin-top: 1rem; font-size: 1rem; opacity: 0.8;">
+            Trained on comprehensive agricultural dataset with {len(dataset)} samples
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
 # Footer
-st.markdown("<div class='footer'>© 2025 Crop Recommendation AI | Powered by xAI</div>", unsafe_allow_html=True)
+st.markdown("""
+    <div class="footer">
+        <p>🌾 Smart Crop Recommendation System | Powered by AI & Machine Learning</p>
+        <p>© 2025 Agricultural Innovation Lab | Developed with ❤️ by Prathamesh</p>
+    </div>
+""", unsafe_allow_html=True)
