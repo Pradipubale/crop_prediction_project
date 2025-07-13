@@ -18,81 +18,113 @@ season_mapping = {'rainy': 1, 'winter': 2, 'spring': 3, 'summer': 4}
 dataset['label'] = dataset['label'].map(label_mapping)
 dataset['season'] = dataset['season'].map(season_mapping)
 
-# Split the data into features and target variable
+# Split data into features and target
 X = dataset[['temperature', 'humidity', 'ph', 'water availability', 'season']]
 y = dataset['label']
 
-# Split the data into training and testing sets
+# Split data into training and test sets
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-# Initialize and train the Logistic Regression model
+# Train Logistic Regression model
 model = LogisticRegression(max_iter=200)
 model.fit(x_train, y_train)
 
-# Function to predict crop
+# Prediction function
 def predict_crop(temperature, humidity, ph, water_availability, season):
     input_data = pd.DataFrame([[temperature, humidity, ph, water_availability, season]], 
                               columns=['temperature', 'humidity', 'ph', 'water availability', 'season'])
     prediction = model.predict(input_data)
     crop_mapping = {v: k for k, v in label_mapping.items()}
-    predicted_crop = crop_mapping[prediction[0]]
-    return predicted_crop
+    return crop_mapping[prediction[0]]
 
 # --- Streamlit App UI ---
 
-# Custom CSS for styling
+# Custom CSS for a clean dashboard
 st.markdown("""
     <style>
-    .main {
-        background-color: #F8F9FA;
-        padding: 20px;
-        border-radius: 10px;
-    }
-    .title {
-        color: #2C3E50;
-        text-align: center;
-    }
-    .prediction {
-        font-size: 24px;
-        font-weight: bold;
-        color: #27AE60;
-        text-align: center;
-    }
-    .accuracy {
-        font-size: 18px;
-        color: #2980B9;
-        text-align: center;
-        margin-top: 10px;
-    }
+        .main-container {
+            background-color: #f5f7fa;
+            padding: 25px;
+            border-radius: 10px;
+        }
+        .title {
+            font-size: 42px;
+            color: #2c3e50;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .result {
+            font-size: 28px;
+            color: #27ae60;
+            text-align: center;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+        .accuracy {
+            text-align: center;
+            font-size: 18px;
+            color: #2980b9;
+            margin-top: 20px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #95a5a6;
+            margin-top: 40px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
-# Title
-st.markdown("<h1 class='title'>🌱 Smart Crop Prediction System</h1>", unsafe_allow_html=True)
-st.markdown("---")
+# Sidebar
+st.sidebar.title("🌿 About")
+st.sidebar.info("""
+A smart AI-powered Crop Prediction system that recommends the best crop based on environmental parameters.
 
-# Input Fields in two columns
+Developed with 💚 by Prathamesh.
+""")
+st.sidebar.markdown("---")
+st.sidebar.write("**Model:** Logistic Regression")
+st.sidebar.write("**Dataset:** 13 Crops, 4 Seasons")
+
+# Title and Subtitle
+st.markdown("<h1 class='title'>🌱 Smart Crop Recommendation</h1>", unsafe_allow_html=True)
+st.markdown("<div class='subtitle'>Enter environmental conditions and we'll recommend the ideal crop for you.</div>", unsafe_allow_html=True)
+
+# Main input container
 with st.container():
+    st.markdown("<div class='main-container'>", unsafe_allow_html=True)
+
     col1, col2 = st.columns(2)
 
     with col1:
-        temperature = st.number_input("🌡️ Temperature (°C)", min_value=0.0, max_value=50.0, value=20.0)
-        ph = st.number_input("🧪 pH Value", min_value=0.0, max_value=14.0, value=6.5)
+        temperature = st.slider("🌡️ Temperature (°C)", 0.0, 50.0, 25.0)
+        ph = st.slider("🧪 Soil pH", 0.0, 14.0, 6.5)
         season = st.selectbox("🗓️ Season", ["rainy", "winter", "spring", "summer"])
 
     with col2:
-        humidity = st.number_input("💧 Humidity (%)", min_value=0.0, max_value=100.0, value=50.0)
-        water_availability = st.number_input("🚿 Water Availability (mm)", min_value=0.0, max_value=500.0, value=100.0)
+        humidity = st.slider("💧 Humidity (%)", 0.0, 100.0, 65.0)
+        water_availability = st.slider("🚿 Water Availability (mm)", 0.0, 500.0, 120.0)
 
-# Map season to numerical code
-season_code = season_mapping[season]
+    season_code = season_mapping[season]
 
-# Prediction Button
-if st.button("🔍 Predict Crop"):
-    result = predict_crop(temperature, humidity, ph, water_availability, season_code)
-    st.markdown(f"<div class='prediction'>✅ Predicted Crop: {result.title()}</div>", unsafe_allow_html=True)
+    predict = st.button("🔍 Predict Ideal Crop")
 
-# Model Accuracy
-y_pred = model.predict(x_test)
-accuracy = accuracy_score(y_test, y_pred)
-st.markdown(f"<div class='accuracy'>🔍 Model Accuracy: {accuracy:.2%}</div>", unsafe_allow_html=True)
+    if predict:
+        result = predict_crop(temperature, humidity, ph, water_availability, season_code)
+        st.markdown(f"<div class='result'>🌾 Recommended Crop: {result.title()}</div>", unsafe_allow_html=True)
+
+    y_pred = model.predict(x_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    st.markdown(f"<div class='accuracy'>📊 Model Accuracy: {accuracy:.2%}</div>", unsafe_allow_html=True)
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# Footer
+st.markdown("<div class='footer'>© 2025 Crop Recommendation AI. All rights reserved.</div>", unsafe_allow_html=True)
