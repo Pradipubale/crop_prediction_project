@@ -432,7 +432,7 @@ with st.sidebar:
     
     st.markdown("""
     <div style='text-align: center; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; color: white;'>
-        <strong>🚀 Developed by Prathamesh</strong><br>
+        <strong>🚀 Developed by Pradip</strong><br>
         <small>Powered by AI & Machine Learning</small>
     </div>
     """, unsafe_allow_html=True)
@@ -547,6 +547,6 @@ st.markdown(f"""
 st.markdown("""
     <div class="footer">
         <p>🌾 Smart Crop Recommendation System | Powered by AI & Machine Learning</p>
-        <p>© 2025 Agricultural Innovation Lab | Developed with ❤️ by Prathamesh</p>
+        <p>© 2025 Agricultural Innovation Lab | Developed with ❤️ by Pradip</p>
     </div>
 """, unsafe_allow_html=True)
