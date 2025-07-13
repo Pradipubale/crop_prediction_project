@@ -337,7 +337,7 @@ st.markdown("""
 # Hero Section
 st.markdown("""
     <div class="hero-section">
-        <div class="hero-title">🌾 Smart Crop Recommendation</div>
+        <div class="hero-title">🌾 Smart FarmFuture </div>
         <div class="hero-subtitle">AI-Powered Agricultural Intelligence for Optimal Crop Selection</div>
         <div class="stats-container">
             <div class="stat-item">
