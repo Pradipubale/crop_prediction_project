@@ -5,7 +5,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
 
 # Load the dataset
-dataset = pd.read_csv(r"C:\Users\HP\OneDrive\Desktop\Crop_recommendation.csv")
+pd.read_csv("Crop_recommendation.csv")  # Capital C
 
 # Map categorical values to numerical codes
 label_mapping = {
