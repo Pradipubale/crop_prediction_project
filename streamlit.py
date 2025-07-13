@@ -2,11 +2,10 @@ import streamlit as st
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score
 
 # Load the dataset
-dataset = pd.read_csv("Crop_recommendation.csv")  # Capital C
-
+dataset = pd.read_csv("Crop_recommendation.csv")
 
 # Map categorical values to numerical codes
 label_mapping = {
@@ -32,38 +31,68 @@ model.fit(x_train, y_train)
 
 # Function to predict crop
 def predict_crop(temperature, humidity, ph, water_availability, season):
-    # Create a DataFrame for the input data
     input_data = pd.DataFrame([[temperature, humidity, ph, water_availability, season]], 
                               columns=['temperature', 'humidity', 'ph', 'water availability', 'season'])
-    
-    # Make a prediction
     prediction = model.predict(input_data)
-    
-    # Map numerical prediction back to crop name
     crop_mapping = {v: k for k, v in label_mapping.items()}
     predicted_crop = crop_mapping[prediction[0]]
-    
     return predicted_crop
 
-# Streamlit App
-st.title("Crop Prediction System")
+# --- Streamlit App UI ---
 
-# Input fields
-temperature = st.number_input("Enter Temperature (°C)", min_value=0.0, max_value=50.0, value=20.0)
-humidity = st.number_input("Enter Humidity (%)", min_value=0.0, max_value=100.0, value=50.0)
-ph = st.number_input("Enter pH Value", min_value=0.0, max_value=14.0, value=6.5)
-water_availability = st.number_input("Enter Water Availability (in mm)", min_value=0.0, max_value=500.0, value=100.0)
-season = st.selectbox("Select Season", ["rainy", "winter", "spring", "summer"])
+# Custom CSS for styling
+st.markdown("""
+    <style>
+    .main {
+        background-color: #F8F9FA;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .title {
+        color: #2C3E50;
+        text-align: center;
+    }
+    .prediction {
+        font-size: 24px;
+        font-weight: bold;
+        color: #27AE60;
+        text-align: center;
+    }
+    .accuracy {
+        font-size: 18px;
+        color: #2980B9;
+        text-align: center;
+        margin-top: 10px;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-# Convert season to numerical code
+# Title
+st.markdown("<h1 class='title'>🌱 Smart Crop Prediction System</h1>", unsafe_allow_html=True)
+st.markdown("---")
+
+# Input Fields in two columns
+with st.container():
+    col1, col2 = st.columns(2)
+
+    with col1:
+        temperature = st.number_input("🌡️ Temperature (°C)", min_value=0.0, max_value=50.0, value=20.0)
+        ph = st.number_input("🧪 pH Value", min_value=0.0, max_value=14.0, value=6.5)
+        season = st.selectbox("🗓️ Season", ["rainy", "winter", "spring", "summer"])
+
+    with col2:
+        humidity = st.number_input("💧 Humidity (%)", min_value=0.0, max_value=100.0, value=50.0)
+        water_availability = st.number_input("🚿 Water Availability (mm)", min_value=0.0, max_value=500.0, value=100.0)
+
+# Map season to numerical code
 season_code = season_mapping[season]
 
-# Prediction button
-if st.button("Predict Crop"):
+# Prediction Button
+if st.button("🔍 Predict Crop"):
     result = predict_crop(temperature, humidity, ph, water_availability, season_code)
-    st.success(f"The predicted crop is: {result}")
+    st.markdown(f"<div class='prediction'>✅ Predicted Crop: {result.title()}</div>", unsafe_allow_html=True)
 
-# Display model accuracy
+# Model Accuracy
 y_pred = model.predict(x_test)
 accuracy = accuracy_score(y_test, y_pred)
-st.write(f"Model Accuracy: {accuracy:.2f}")
+st.markdown(f"<div class='accuracy'>🔍 Model Accuracy: {accuracy:.2%}</div>", unsafe_allow_html=True)
