@@ -375,7 +375,7 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     
     st.image("https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=200&fit=crop", 
-             caption="Sustainable Agriculture", use_column_width=True)
+             caption="Sustainable Agriculture", use_container_width=True)
     
     st.markdown("""
         <div class="sidebar-card">
@@ -469,7 +469,7 @@ if predict_button:
         # Display crop image and details
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            st.image(crop_images[result], caption=f"{result.title()} - Your Recommended Crop", use_column_width=True)
+            st.image(crop_images[result], caption=f"{result.title()} - Your Recommended Crop", use_container_width=True)
         
         # Additional crop information
         st.markdown("""
