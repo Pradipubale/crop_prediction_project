@@ -1,67 +1,162 @@
-# Crop Recommendation System(Link:https://croppredictionproject-zrpwxkqjfofbubenatkjvi.streamlit.app/)
 
-This project is a Crop Recommendation System built using Python, Scikit-Learn, and Streamlit. The application uses a Logistic Regression model trained on crop data to predict the most suitable crop based on the user's input parameters such as temperature, humidity, pH level, water availability, and season.
 
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Dataset](#dataset)
-- [Requirements](#requirements)
-- [Installation and Setup](#installation-and-setup)
-- [Usage](#usage)
-- [File Structure](#file-structure)
-- [Contributing](#contributing)
+```
+# 🌾 Smart Crop Recommendation System
 
-## Project Overview
-The Crop Recommendation System helps farmers and agriculture enthusiasts select the most appropriate crop for given environmental conditions. The model leverages features such as temperature, humidity, soil pH, water availability, and season to predict a crop label. It then maps the label to a specific crop, providing an easy-to-understand recommendation.
+An intelligent web application built with **Streamlit** and **Scikit-learn** that predicts the most suitable crop to cultivate based on environmental parameters like **temperature**, **humidity**, **soil pH**, **water availability**, and **season**.  
+The model uses **Logistic Regression** to classify crops, aiming to assist farmers and agricultural planners in making informed crop selection decisions.
 
-## Dataset
-The dataset used for this project contains environmental parameters and crop labels. Here are the main columns:
-- **temperature**: Average temperature for the crop to grow
-- **humidity**: Average humidity required for the crop
-- **ph**: Soil pH level suitable for the crop
-- **water availability**: Average water availability
-- **season**: Season suitable for the crop (encoded as 1 for Rainy, 2 for Winter, etc.)
-- **label**: Crop label (mapped to specific crops in the app)
+---
 
-## Requirements
-- Python 3.6 or above
-- Streamlit
-- Pandas
-- Scikit-Learn
-- Seaborn
+## 📸 Live Demo
 
-## Installation and Setup
+👉 [Check out the live app here 🚀](https://croppredictionproject-zrpwxkqjfofbubenatkjvi.streamlit.app/)
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/crop-recommendation-system.git
-    cd crop-recommendation-system
-    ```
+---
 
-2. Install the required packages:
-    ```bash
-    pip install -r requirements.txt
-    ```
+## 📖 Features
 
-3. Ensure that the dataset file (`Crop_recommendation.csv`) is in the correct directory or update the path in the code.
+- 📊 **User-friendly interface** powered by Streamlit.
+- 🔍 Predicts suitable crop based on:
+  - Temperature
+  - Humidity
+  - Soil pH
+  - Water Availability
+  - Season
+- 🌸 Displays:
+  - Crop image
+  - Short description
+  - Model accuracy
+- 🎨 Clean, responsive, and visually enhanced UI with custom CSS styling.
+- 🚀 Fast predictions using Logistic Regression.
 
-4. Run the Streamlit application:
-    ```bash
-    streamlit run app.py
-    ```
+---
 
-## Usage
+## 🛠️ Technologies Used
 
-1. Open the app in a browser (the link will appear in the terminal after running the command).
-2. Enter values for **Temperature**, **Humidity**, **pH Level**, **Water Availability**, and **Season**.
-3. Click the **Predict Crop** button to get a recommendation.
-4. The recommended crop based on input parameters will be displayed.
+- **Python**
+- **Streamlit**
+- **Pandas**
+- **Scikit-learn (Logistic Regression)**
+- **Custom CSS styling**
+- **Google Fonts**
+- **Unsplash crop images**
 
-## File Structure
+---
 
-```markdown
-.
-├── Crop_recommendation.csv    # Dataset file with crop data
-├── app.py                      # Main Streamlit app script
-├── README.md                   # Project documentation
-└── requirements.txt            # List of dependencies
+## 📂 Project Structure
+
+```
+
+├── Crop\_recommendation.csv      # Dataset
+├── app.py                       # Streamlit app
+├── README.md                    # Project documentation
+└── requirements.txt             # Required Python libraries
+
+````
+
+---
+
+## 📦 Installation & Running the App
+
+1️⃣ **Clone the repository**
+```bash
+git clone https://github.com/pradipubale/smart-crop-recommendation.git
+cd smart-crop-recommendation
+````
+
+2️⃣ **Install dependencies**
+
+```bash
+pip install -r requirements.txt
+```
+
+3️⃣ **Run the Streamlit app**
+
+```bash
+streamlit run app.py
+```
+
+---
+
+## 📈 Dataset Information
+
+* Source: `Crop_recommendation.csv`
+* Features:
+
+  * `temperature`
+  * `humidity`
+  * `ph`
+  * `water availability`
+  * `season`
+* Target:
+
+  * `label` (crop name)
+
+Crops considered:
+`rice`, `maize`, `chickpea`, `kidneybeans`, `pigeonpeas`, `mothbeans`, `mungbean`, `blackgram`, `lentil`, `watermelon`, `muskmelon`, `cotton`, `jute`.
+
+---
+
+## 📊 Model Performance
+
+* Algorithm: **Logistic Regression**
+* Training/Testing Split: 70/30
+* Model Accuracy: Displayed dynamically within the app interface.
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 👨‍💻 Author
+
+* **Pradip Ubale**
+* GitHub: [@pradipubale](https://github.com/pradipubale)
+
+---
+
+## 🌟 Acknowledgements
+
+* [Streamlit Documentation](https://docs.streamlit.io/)
+* [Scikit-learn Documentation](https://scikit-learn.org/stable/)
+* [Unsplash](https://unsplash.com/) for free images.
+
+---
+
+## 🚀 Future Improvements
+
+* Integrate additional ML models for comparison.
+* Support multi-season crop planning.
+* Include soil type as an input parameter.
+* Deploy on **Render** or **Streamlit Cloud** (already live ✅)
+
+---
+
+```
+
+---
+
+## 📦 `requirements.txt`
+
+Here’s a clean, working `requirements.txt` for your project:
+
+```
+
+streamlit
+pandas
+scikit-learn
+numpy
+
+```
+
+If you used any additional libraries (like `matplotlib`, `PIL`, or custom CSS importers) — let me know, I can add those too.
+
+---
+
+✅ Done!  
+Would you like me to generate a `LICENSE` file (MIT license) as well?
+```
