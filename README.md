@@ -1,9 +1,4 @@
 
----
-
-## 📄 Final `README.md`
-
-```markdown
 # 🌾 Smart Crop Recommendation System
 
 An intelligent web application built with **Streamlit** and **Scikit-learn** that predicts the most suitable crop to cultivate based on environmental parameters like **temperature**, **humidity**, **soil pH**, **water availability**, and **season**.  
@@ -50,13 +45,11 @@ The model uses **Logistic Regression** to classify crops, aiming to assist farme
 ## 📂 Project Structure
 
 ```
-
-├── Crop\_recommendation.csv      # Dataset
+├── Crop_recommendation.csv      # Dataset
 ├── app.py                       # Streamlit app
 ├── README.md                    # Project documentation
 └── requirements.txt             # Required Python libraries
-
-````
+```
 
 ---
 
@@ -66,16 +59,14 @@ The model uses **Logistic Regression** to classify crops, aiming to assist farme
 ```bash
 git clone https://github.com/pradipubale/smart-crop-recommendation.git
 cd smart-crop-recommendation
-````
+```
 
 2️⃣ **Install dependencies**
-
 ```bash
 pip install -r requirements.txt
 ```
 
 3️⃣ **Run the Streamlit app**
-
 ```bash
 streamlit run app.py
 ```
@@ -84,17 +75,15 @@ streamlit run app.py
 
 ## 📈 Dataset Information
 
-* Source: `Crop_recommendation.csv`
-* Features:
-
-  * `temperature`
-  * `humidity`
-  * `ph`
-  * `water availability`
-  * `season`
-* Target:
-
-  * `label` (crop name)
+- Source: `Crop_recommendation.csv`
+- Features:
+  - `temperature`
+  - `humidity`
+  - `ph`
+  - `water availability`
+  - `season`
+- Target:
+  - `label` (crop name)
 
 Crops considered:
 `rice`, `maize`, `chickpea`, `kidneybeans`, `pigeonpeas`, `mothbeans`, `mungbean`, `blackgram`, `lentil`, `watermelon`, `muskmelon`, `cotton`, `jute`.
@@ -103,63 +92,36 @@ Crops considered:
 
 ## 📊 Model Performance
 
-* Algorithm: **Logistic Regression**
-* Training/Testing Split: 70/30
-* Model Accuracy: Displayed dynamically within the app interface.
+- Algorithm: **Logistic Regression**
+- Training/Testing Split: 70/30
+- Model Accuracy: Displayed dynamically within the app interface.
 
 ---
 
 ## 📜 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License.
 
 ---
 
 ## 👨‍💻 Author
 
-* **Pradip Ubale**
-* GitHub: [@pradipubale](https://github.com/pradipubale)
+- **Pradip Ubale**
+- GitHub: [@pradipubale](https://github.com/pradipubale)
 
 ---
 
 ## 🌟 Acknowledgements
 
-* [Streamlit Documentation](https://docs.streamlit.io/)
-* [Scikit-learn Documentation](https://scikit-learn.org/stable/)
-* [Unsplash](https://unsplash.com/) for free images.
+- [Streamlit Documentation](https://docs.streamlit.io/)
+- [Scikit-learn Documentation](https://scikit-learn.org/stable/)
+- [Unsplash](https://unsplash.com/) for free images.
 
 ---
 
 ## 🚀 Future Improvements
 
-* Integrate additional ML models for comparison.
-* Support multi-season crop planning.
-* Include soil type as an input parameter.
-* Deploy on **Render** or **Streamlit Cloud** (already live ✅)
-
----
-
-```
-
----
-
-## 📦 `requirements.txt`
-
-Here’s a clean, working `requirements.txt` for your project:
-
-```
-
-streamlit
-pandas
-scikit-learn
-numpy
-
-```
-
-If you used any additional libraries (like `matplotlib`, `PIL`, or custom CSS importers) — let me know, I can add those too.
-
----
-
-✅ Done!  
-Would you like me to generate a `LICENSE` file (MIT license) as well?
-```
+- Integrate additional ML models for comparison.
+- Support multi-season crop planning.
+- Include soil type as an input parameter.
+- Deploy on **Render** or **Streamlit Cloud** (already live ✅)
